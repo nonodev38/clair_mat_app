@@ -156,26 +156,30 @@
 	  margin-bottom: 0.4rem;
 	}
 	
-	.liste-corbeille {
-	  position: fixed;
-	  bottom: 1rem;
-	  right: 1rem;
-	  background: #fff;
-	  border: 1px solid #ccc;
-	  padding: 0.5rem;
-	  border-radius: 6px;
-	  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-	  z-index: 1000;
-	  max-width: 250px;
-	  max-height: 300px;
-	  overflow-y: auto; /* <-- indispensable pour le scroll */
-	}
+.liste-corbeille {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.liste-corbeille ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.liste-corbeille li {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #eee;
+}
 
-	.liste-corbeille ul {
-	  list-style: none;
-	  padding: 0;
-	  margin: 0;
-	}
 
 
   </style>
