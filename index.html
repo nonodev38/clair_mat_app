@@ -480,17 +480,21 @@ function importerFichier(file) {
 	  const data2024 = Array(moisCles.length).fill(0);
 	  const data2025 = Array(moisCles.length).fill(0);
 
-	  travaux.forEach(t => {
-		const date = t.dateSelection || t.dateAjout;
-		if (!date || date.length < 7) return;
+	travaux.forEach(t => {
+	  const date = t.dateSelection || t.dateAjout;
+	  if (!date || date.length < 7) return;
+	
+	  const parts = date.includes('/') ? date.split('/') : date.split('-');
+	  const annee = parts[2];
+	  const mois = parts[1];
+	
+	  const index = moisCles.indexOf(mois);
+	  if (index !== -1) {
+	    if (annee === '2024') data2024[index]++;
+	    if (annee === '2025') data2025[index]++;
+	  }
+	});
 
-		const [annee, mois] = date.split('-');
-		const index = moisCles.indexOf(mois);
-		if (index !== -1) {
-		  if (annee === '2024') data2024[index]++;
-		  if (annee === '2025') data2025[index]++;
-		}
-	  });
 
 	  const ctx = document.getElementById('comparatifGraph').getContext('2d');
 	  if (window.graphiqueComparatif) {
