@@ -2,585 +2,223 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>📋 Clair Mat App</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clair Mat - Précisions</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 2rem;
-      background: #f9f9f9;
-      color: #333;
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 20px;
+      background: #f5f5f5;
     }
     h1 {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 20px;
     }
-    .form-container {
-      border: 1px solid #ddd;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      display: none;
+    form, table, .filters, .export-buttons {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    input[type="text"], select {
+    form input, form select, form button {
+      margin: 5px 0;
+      padding: 8px;
       width: 100%;
-      padding: 6px 8px;
-      margin-top: 4px;
-      font-size: 1rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      box-sizing: border-box;
     }
-    button {
-      margin-top: 1rem;
-      padding: 8px 12px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button#btnSupprimer {
-      background-color: #d9534f;
-      color: white;
-      margin-left: 1rem;
-      display: none;
-    }
-    button#btnValider {
-      background-color: #5cb85c;
-      color: white;
-    }
-    button#btnAjouter {
-      background-color: #0275d8;
-      color: white;
-      margin: 0 0.5rem 1rem 0.5rem;
-    }	  
-	
-	
-    #travauxList {
-      list-style: none;
-      padding: 0;
-    }
-    #travauxList li {
-      background: #fff;
-      padding: 1rem;
-      margin-bottom: 0.5rem;
-      border-radius: 6px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    #travauxList li .title {
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-    #travauxList li .subtitle {
-      font-size: 0.9rem;
-      color: #666;
-    }
-	
-	
-	.date-container {
-	  position: relative;
-	  display: flex;
-	  align-items: center;
-	  width: 100%;
-	  max-width: 300px; /* ajustable */
-	}
-
-	.calendar-icon {
-	  position: absolute;
-	  left: 10px;
-	  font-size: 1.2em;
-	  pointer-events: none;
-	  color: #555;
-	}
-
-	.date-container input {
-	  width: 100%;
-	  padding: 10px 10px 10px 35px; /* espace à gauche pour l’icône */
-	  border: 1px solid #ccc;
-	  border-radius: 4px;
-	  box-sizing: border-box;
-	}
-
-	
-	
-    #importExportSection {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-	
-    #rechercheInput {
+    table {
       width: 100%;
+      border-collapse: collapse;
+    }
+    table th, table td {
       padding: 10px;
-      margin: 1rem 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
     }
-	
-	
-		.liste-realisation {
-	  position: fixed;
-	  top: 1rem;
-	  left: 1rem;
-	  background: #fff;
-	  border: 1px solid #ccc;
-	  padding: 0.5rem;
-	  border-radius: 6px;
-	  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-	  z-index: 1000;
-	  max-width: 250px;
-	}
-	.liste-realisation h3 {
-	  margin: 0 0 0.5rem 0;
-	  font-size: 1rem;
-	}
-	.liste-realisation ul {
-	  list-style: none;
-	  padding: 0;
-	  margin: 0;
-	}
-	.liste-realisation li {
-	  font-size: 0.85rem;
-	  margin-bottom: 0.4rem;
-	}
-	
-.liste-corbeille {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  z-index: 1000;
-  max-width: 250px;
-  max-height: 300px;
-  overflow-y: auto;
-}
-.liste-corbeille ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.liste-corbeille li {
-  padding: 0.3rem 0;
-  border-bottom: 1px solid #eee;
-}
-
-	#viderCorbeilleBtn {
-	  background-color: #d9534f;
-	  color: white;
-	  border: none;
-	  padding: 6px 10px;
-	  margin-top: 0.5rem;
-	  border-radius: 4px;
-	  width: 100%;
-	  cursor: pointer;
-	  font-size: 0.9rem;
-	}
-
+    .actions button {
+      margin-right: 5px;
+    }
+    .filters, .export-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .filters input {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
 
-  <h1>📋 Gestion des Travaux</h1>
-  
- <div class="liste-realisation" id="listeRealisationContainer" style="display:none;">
-  <h3>🛠 À réaliser</h3>
-  <ul id="listeRealisation"></ul>
-</div>
+  <h1>Clair Mat - Précisions</h1>
 
-  <div id="importExportSection">
-	<input type="file" id="importFile" accept=".txt" style="display:none" />
-	<button id="btnImport">⬆ Importer bdTravaux.txt</button>
-	<button id="btnExport">⬇ Exporter bdTravaux.txt</button>
+  <form id="precisionForm">
+    <label>Date :</label>
+    <input type="date" id="date" required />
+    
+    <label>Précision :</label>
+    <input type="text" id="precision" required />
+    
+    <label>État :</label>
+    <select id="etat">
+      <option value="À faire">À faire</option>
+      <option value="En cours">En cours</option>
+      <option value="Fait">Fait</option>
+    </select>
+
+    <button type="submit">Ajouter</button>
+  </form>
+
+  <div class="filters">
+    <select id="etatFilter">
+      <option value="">Tous les états</option>
+      <option value="À faire">À faire</option>
+      <option value="En cours">En cours</option>
+      <option value="Fait">Fait</option>
+    </select>
+    <input type="text" id="search" placeholder="Rechercher une précision..." />
   </div>
 
-  <div style="text-align:center;">
-	<button id="btnAjouter">➕ Ajouter un travail</button>
+  <table>
+    <thead>
+      <tr>
+        <th onclick="sortTable('date')">Date 📅</th>
+        <th>Précision</th>
+        <th onclick="sortTable('etat')">État 🏷️</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="precisionTableBody"></tbody>
+  </table>
+
+  <div class="export-buttons">
+    <button onclick="exportData()">📤 Exporter JSON</button>
+    <input type="file" accept=".json" onchange="importData(event)" />
   </div>
-
-  <div class="form-container" id="formContainer">
-	<input type="hidden" id="ficheId" />
-	<label for="type">Type</label>
-	<select id="type">
-	  <option value="MH">MH</option>
-	  <option value="CH">CH</option>
-	  <option value="EMP">EMP</option>
-	  <option value="BAT">BAT</option>
-	  <option value="Autre">Autre</option>
-	</select>
-
-	<label for="numero">Numéro</label>
-	<input type="text" id="numero" placeholder="Numéro" />
-
-	<label for="famille">Famille</label>
-	<select id="famille">
-	  <option value="Casse">Casse</option>
-	  <option value="Deco">Deco</option>
-	  <option value="Plomberie">Plomberie</option>
-	  <option value="Electricité">Electricité</option>
-	  <option value="Terrasse">Terrasse</option>
-	  <option value="Debrousaillage">Débroussaillage</option>
-	  <option value="Autre">Autre</option>
-	</select>
-
-
-	<label for="precision">Précision</label>
-	<input type="text" id="precision" list="precision-list" placeholder="Précisions Travaux" />
-	<datalist id="precision-list"></datalist>
-
-	
-	<label for="date">Date sélectionnée</label>
-	<div class="date-container">
-	  <span class="calendar-icon">📅</span>
-	  <input type="text" id="date" placeholder="Sélectionnez une date" />
-	</div>
-
-
-	<button id="btnValider">Valider</button>
-	<button id="btnSupprimer">Supprimer</button>
-  </div>
-
-  <input type="text" id="rechercheInput" placeholder="🔍 Rechercher un travail..." />
-
-  <ul id="travauxList"></ul>
-
-
-	<div class="liste-corbeille">
-	  <h3>Corbeille</h3>
-	  <ul id="corbeilleListe">
-		<!-- Éléments supprimés ici -->
-	  </ul>
-	  <button id="viderCorbeilleBtn">🗑️ Vider la corbeille</button>
-	</div>
-	
 
   <script>
-    let travaux = JSON.parse(localStorage.getItem('travaux')) || [];
+    let precisions = JSON.parse(localStorage.getItem("precisions") || "[]");
+    let archived = JSON.parse(localStorage.getItem("archives") || "[]");
+    let currentSort = { key: 'date', asc: true };
 
-    const parseDateDDMMYYYY = str => {
-      if (!str) return null;
-      const [d, m, y] = str.split('/');
-      return new Date(`${y}-${m}-${d}`);
-    };
+    const form = document.getElementById("precisionForm");
+    const tableBody = document.getElementById("precisionTableBody");
+    const searchInput = document.getElementById("search");
+    const etatFilter = document.getElementById("etatFilter");
 
-    function afficherTravaux(filtre = '') {
-      const list = document.getElementById('travauxList');
-      list.innerHTML = '';
-      const recherche = filtre.trim().toLowerCase();
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const date = document.getElementById("date").value;
+      const text = document.getElementById("precision").value.trim();
+      const etat = document.getElementById("etat").value;
 
-      travaux
-        .sort((a, b) => parseDateDDMMYYYY(b.dateSelection) - parseDateDDMMYYYY(a.dateSelection))
-        .filter(t => {
-          const txt = `${t.type} ${t.numero} ${t.famille} ${t.precision} ${t.dateAjout} ${t.dateSelection}`.toLowerCase();
-          return txt.includes(recherche);
-        })
-        .forEach(item => {
-          const li = document.createElement('li');
-          const title = document.createElement('div');
-          title.className = 'title';
-          title.textContent = `${item.type} ${item.numero}`;
+      if (!date || !text) return;
 
-          const subtitle = document.createElement('div');
-          subtitle.className = 'subtitle';
-          subtitle.textContent = `${item.famille} | ${item.precision} | ${item.dateAjout} | ${item.dateSelection}`;
+      precisions.push({ date, text, etat });
+      save();
+      form.reset();
+    });
 
-          const btn = document.createElement('button');
-          btn.textContent = '✏️ Modifier';
-          btn.onclick = () => modifierFiche(item.id);
+    function renderTable() {
+      const keyword = searchInput.value.toLowerCase();
+      const etat = etatFilter.value;
 
-          const div = document.createElement('div');
-          div.appendChild(title);
-          div.appendChild(subtitle);
+      const filtered = precisions.filter(p => 
+        (!etat || p.etat === etat) &&
+        (!keyword || p.text.toLowerCase().includes(keyword))
+      );
 
-			li.onclick = (e) => {
-			  if (e.target.tagName !== 'BUTTON') {
-				ajouterDansListeARealiser(item);
-			  }
-			};
+      const sorted = filtered.sort((a, b) => {
+        let valA = a[currentSort.key];
+        let valB = b[currentSort.key];
+        return currentSort.asc 
+          ? valA.localeCompare(valB) 
+          : valB.localeCompare(valA);
+      });
 
-          li.appendChild(div);
-          li.appendChild(btn);
-          list.appendChild(li);
-        });
+      tableBody.innerHTML = sorted.map((p, i) => `
+        <tr>
+          <td>${p.date}</td>
+          <td>${p.text}</td>
+          <td>${p.etat}</td>
+          <td class="actions">
+            <button onclick="archive(${i})">Archiver</button>
+            <button onclick="remove(${i})">Supprimer</button>
+          </td>
+        </tr>
+      `).join("");
     }
 
-    function clearForm() {
-      document.getElementById('ficheId').value = '';
-      document.getElementById('type').value = 'MH';
-      document.getElementById('numero').value = '';
-      document.getElementById('famille').value = 'Deco';
-      document.getElementById('precision').value = '';
-      document.getElementById('date').value = '';
-      document.getElementById('btnSupprimer').style.display = 'none';
+    function archive(index) {
+      archived.push(precisions[index]);
+      precisions.splice(index, 1);
+      save();
     }
 
-    function toggleForm() {
-      const form = document.getElementById('formContainer');
-      const visible = form.style.display === 'block';
-      form.style.display = visible ? 'none' : 'block';
-      if (!visible) {
-        clearForm();
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
-        document.getElementById('date').value = `${dd}/${mm}/${yyyy}`;
+    function remove(index) {
+      if (confirm("Supprimer cette précision ?")) {
+        precisions.splice(index, 1);
+        save();
       }
     }
 
-    function validerFiche() {
-      const id = document.getElementById('ficheId').value;
-      const type = document.getElementById('type').value;
-      const numero = document.getElementById('numero').value.trim();
-      const famille = document.getElementById('famille').value;
-      const precision = document.getElementById('precision').value.trim();
-      const dateSelection = document.getElementById('date').value;
-      const dateAjout = new Date().toLocaleDateString('fr-FR');
-
-      if (!numero || !dateSelection) {
-        alert('Numéro et date requis.');
-        return;
-      }
-
-      if (id) {
-        const i = travaux.findIndex(t => t.id == id);
-        if (i >= 0) {
-          travaux[i] = { id: Number(id), type, numero, famille, precision, dateAjout: travaux[i].dateAjout, dateSelection };
-        }
-      } else {
-        const newId = travaux.length ? Math.max(...travaux.map(t => t.id)) + 1 : 1;
-        travaux.push({ id: newId, type, numero, famille, precision, dateAjout, dateSelection });
-      }
-
-      localStorage.setItem('travaux', JSON.stringify(travaux));
-      afficherTravaux();
-      toggleForm();
+    function save() {
+      localStorage.setItem("precisions", JSON.stringify(precisions));
+      localStorage.setItem("archives", JSON.stringify(archived));
+      renderTable();
     }
 
-    function supprimerFiche() {
-      const id = document.getElementById('ficheId').value;
-      if (confirm("Supprimer cette fiche ?")) {
-        travaux = travaux.filter(t => t.id != id);
-        localStorage.setItem('travaux', JSON.stringify(travaux));
-        afficherTravaux();
-        toggleForm();
+    function sortTable(key) {
+      if (currentSort.key === key) currentSort.asc = !currentSort.asc;
+      else {
+        currentSort.key = key;
+        currentSort.asc = true;
       }
+      renderTable();
     }
 
-    function modifierFiche(id) {
-      const f = travaux.find(t => t.id === id);
-      if (!f) return;
-      document.getElementById('ficheId').value = f.id;
-      document.getElementById('type').value = f.type;
-      document.getElementById('numero').value = f.numero;
-      document.getElementById('famille').value = f.famille;
-      document.getElementById('precision').value = f.precision;
-      document.getElementById('date').value = f.dateSelection;
-      document.getElementById('btnSupprimer').style.display = 'inline-block';
-      document.getElementById('formContainer').style.display = 'block';
-    }
-	  
-function importerFichier(file) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    const lines = e.target.result.split(/\r?\n/).filter(l => l.trim());
-    let maxId = travaux.length ? Math.max(...travaux.map(t => t.id)) : 0;
-    let count = 0;
-
-    for (let l of lines) {
-      const [idStr, type, numero, famille, precision, dateAjout, dateSelection] = l.split('|');
-
-      if (type && numero && dateSelection) {
-        // Vérifier si cette fiche existe déjà (hors id)
-        const ficheExiste = travaux.some(t =>
-          t.type === type &&
-          t.numero === numero &&
-          t.famille === famille &&
-          t.precision === precision &&
-          t.dateAjout === dateAjout &&
-          t.dateSelection === dateSelection
-        );
-        if (ficheExiste) continue; // fiche déjà présente, on saute
-
-        let newId = Number(idStr);
-        if (isNaN(newId) || travaux.some(t => t.id === newId)) {
-          maxId++;
-          newId = maxId;
-        }
-
-        travaux.push({
-          id: newId,
-          type,
-          numero,
-          famille,
-          precision,
-          dateAjout,
-          dateSelection
-        });
-
-        count++;
-      }
-    }
-
-    localStorage.setItem('travaux', JSON.stringify(travaux));
-    afficherTravaux();
-    alert(`${count} nouvelles fiches importées (sans doublons).`);
-  };
-  reader.readAsText(file);
-}
-
-
-    function exporterFichier() {
-      if (!travaux.length) return alert("Aucun travail à exporter.");
-      const txt = travaux.map(t => [t.id, t.type, t.numero, t.famille, t.precision, t.dateAjout, t.dateSelection].join('|')).join('\n');
-      const blob = new Blob([txt], {type: 'text/plain'});
+    function exportData() {
+      const data = {
+        precisions,
+        archived
+      };
+      const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'bdTravaux.txt';
-      document.body.appendChild(a);
+      a.download = "clairmat-donnees.json";
       a.click();
-      a.remove();
       URL.revokeObjectURL(url);
     }
-	
-	function chargerListeARealiser() {
-	  const liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
-	  const conteneur = document.getElementById('listeRealisation');
-	  conteneur.innerHTML = '';
 
-	  if (liste.length === 0) {
-		document.getElementById('listeRealisationContainer').style.display = 'none';
-		return;
-	  }
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-	  document.getElementById('listeRealisationContainer').style.display = 'block';
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          if (data.precisions && data.archived) {
+            precisions = data.precisions;
+            archived = data.archived;
+            save();
+          } else {
+            alert("Fichier invalide");
+          }
+        } catch {
+          alert("Erreur de lecture du fichier");
+        }
+      };
+      reader.readAsText(file);
+    }
 
-	  liste.forEach(t => {
-		const li = document.createElement('li');
-		li.textContent = `${t.type} ${t.numero} (${t.dateSelection})`;
-		li.style.cursor = 'pointer';
-		li.title = 'Cliquer pour retirer de la liste';
-		li.onclick = () => retirerDeListeARealiser(t.id);
-		conteneur.appendChild(li);
-	  });
-	}
+    searchInput.addEventListener("input", renderTable);
+    etatFilter.addEventListener("change", renderTable);
 
-
-	function ajouterDansListeARealiser(travail) {
-	  let liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
-	  if (!liste.some(t => t.id === travail.id)) {
-		liste.push(travail);
-		localStorage.setItem('listeTravauxARealiser', JSON.stringify(liste));
-		chargerListeARealiser();
-	  }
-	}
-	
-		function retirerDeListeARealiser(id) {
-		  let liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
-		  const elementRetire = liste.find(t => t.id === id);
-
-		  // Supprimer de la liste à réaliser
-		  liste = liste.filter(t => t.id !== id);
-		  localStorage.setItem('listeTravauxARealiser', JSON.stringify(liste));
-
-		  // Ajouter à la corbeille
-		  let corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
-		  if (elementRetire && !corbeille.some(t => t.id === id)) {
-			corbeille.push(elementRetire);
-			localStorage.setItem('bdCorbeille', JSON.stringify(corbeille));
-		  }
-
-		  // Supprimer aussi de la liste principale des travaux
-		  travaux = travaux.filter(t => t.id !== id);
-		  localStorage.setItem('travaux', JSON.stringify(travaux));
-
-		  // Mettre à jour l'affichage
-		  chargerListeARealiser();
-		  afficherTravaux();
-		  chargerListeCorbeille();
-		}
-
-		function chargerListeCorbeille() {
-		  const corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
-		  const conteneur = document.getElementById('listeCorbeille');
-		  conteneur.innerHTML = '';
-
-		  if (corbeille.length === 0) {
-			document.getElementById('listeCorbeilleContainer').style.display = 'none';
-			return;
-		  }
-
-		  document.getElementById('listeCorbeilleContainer').style.display = 'block';
-
-		  corbeille.forEach(t => {
-			const li = document.createElement('li');
-			li.textContent = `${t.type} ${t.numero} (${t.dateSelection})`;
-			conteneur.appendChild(li);
-		  });
-		}
-		
-		document.getElementById('viderCorbeilleBtn').addEventListener('click', () => {
-		  if (confirm('Voulez-vous vraiment vider la corbeille ?')) {
-			document.getElementById('corbeilleListe').innerHTML = '';
-			// Optionnel : mettre à jour le stockage local si utilisé
-		  }
-		});
-
-	
-		// Chargement de bdTravaux depuis le localStorage
-	  const bdTravaux = JSON.parse(localStorage.getItem("bdTravaux")) || [];
-	  
-
-	  // Récupération des parts[4] uniques
-	  const precisions = [...new Set(bdTravaux.map(item => {
-		const parts = item.split("§");
-		return parts[4] || ""; // éviter undefined
-	  }).filter(p => p.trim() !== ""))]; // on filtre les vides
-
-	  // Remplir la datalist
-	  const datalist = document.getElementById("precision-list");
-	  precisions.forEach(p => {
-		const option = document.createElement("option");
-		option.value = p;
-		datalist.appendChild(option);
-	  });
-
-
-
-    // Initialisation
-    flatpickr("#date", { dateFormat: "d/m/Y", locale: "fr" });
-    document.getElementById('btnAjouter').onclick = toggleForm;
-    document.getElementById('btnValider').onclick = validerFiche;
-    document.getElementById('btnSupprimer').onclick = supprimerFiche;
-    document.getElementById('btnImport').onclick = () => document.getElementById('importFile').click();
-    document.getElementById('importFile').addEventListener('change', e => {
-      if (e.target.files[0]) {
-        importerFichier(e.target.files[0]);
-        e.target.value = '';
-      }
-    });
-    document.getElementById('btnExport').onclick = exporterFichier;
-    document.getElementById('rechercheInput').addEventListener('input', e => afficherTravaux(e.target.value));
-
-    afficherTravaux();
-	chargerListeARealiser();
-	chargerListeCorbeille();
+    renderTable();
   </script>
+
 </body>
 </html>
