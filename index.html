@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -224,6 +225,11 @@
   <input type="text" id="rechercheInput" placeholder="🔍 Rechercher un travail..." />
 
   <ul id="travauxList"></ul>
+  
+	<h2>Comparatif Avril - Octobre 2024 vs 2025</h2>
+	<canvas id="comparatifGraph" height="200"></canvas>
+	
+	
 
   <script>
     let travaux = JSON.parse(localStorage.getItem('travaux')) || [];
@@ -465,6 +471,68 @@ function importerFichier(file) {
 	  chargerListeARealiser();
 	}
 	
+	
+	function genererComparatifGraphique() {
+	  const travaux = JSON.parse(localStorage.getItem('travaux')) || [];
+	  const moisCles = ['04', '05', '06', '07', '08', '09', '10'];
+	  const labels = ['Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre'];
+
+	  const data2024 = Array(moisCles.length).fill(0);
+	  const data2025 = Array(moisCles.length).fill(0);
+
+	  travaux.forEach(t => {
+		const date = t.dateSelection || t.dateAjout;
+		if (!date || date.length < 7) return;
+
+		const [annee, mois] = date.split('-');
+		const index = moisCles.indexOf(mois);
+		if (index !== -1) {
+		  if (annee === '2024') data2024[index]++;
+		  if (annee === '2025') data2025[index]++;
+		}
+	  });
+
+	  const ctx = document.getElementById('comparatifGraph').getContext('2d');
+	  if (window.graphiqueComparatif) {
+		window.graphiqueComparatif.destroy(); // évite doublon si rechargé
+	  }
+	  window.graphiqueComparatif = new Chart(ctx, {
+		type: 'bar',
+		data: {
+		  labels: labels,
+		  datasets: [
+			{
+			  label: '2024',
+			  data: data2024,
+			  backgroundColor: 'rgba(54, 162, 235, 0.5)',
+			  borderColor: 'rgba(54, 162, 235, 1)',
+			  borderWidth: 1
+			},
+			{
+			  label: '2025',
+			  data: data2025,
+			  backgroundColor: 'rgba(255, 99, 132, 0.5)',
+			  borderColor: 'rgba(255, 99, 132, 1)',
+			  borderWidth: 1
+			}
+		  ]
+		},
+		options: {
+		  responsive: true,
+		  scales: {
+			y: {
+			  beginAtZero: true,
+			  title: { display: true, text: 'Nombre de fiches' }
+			},
+			x: {
+			  title: { display: true, text: 'Mois' }
+			}
+		  }
+		}
+	  });
+	}
+
+	
 		// Chargement de bdTravaux depuis le localStorage
 	  const bdTravaux = JSON.parse(localStorage.getItem("bdTravaux")) || [];
 	  
@@ -502,6 +570,7 @@ function importerFichier(file) {
 
     afficherTravaux();
 	chargerListeARealiser();
+	genererComparatifGraphique();
   </script>
 </body>
 </html>
