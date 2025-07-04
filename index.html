@@ -180,7 +180,17 @@
   border-bottom: 1px solid #eee;
 }
 
-
+	#viderCorbeilleBtn {
+	  background-color: #d9534f;
+	  color: white;
+	  border: none;
+	  padding: 6px 10px;
+	  margin-top: 0.5rem;
+	  border-radius: 4px;
+	  width: 100%;
+	  cursor: pointer;
+	  font-size: 0.9rem;
+	}
 
   </style>
 </head>
@@ -250,10 +260,14 @@
   <ul id="travauxList"></ul>
 
 
-	<div class="liste-corbeille" id="listeCorbeilleContainer" style="display:none;">
-	  <h3>🗑️ Corbeille</h3>
-	  <ul id="listeCorbeille"></ul>
+	<div class="liste-corbeille">
+	  <h3>Corbeille</h3>
+	  <ul id="corbeilleListe">
+		<!-- Éléments supprimés ici -->
+	  </ul>
+	  <button id="viderCorbeilleBtn">🗑️ Vider la corbeille</button>
 	</div>
+	
 
   <script>
     let travaux = JSON.parse(localStorage.getItem('travaux')) || [];
@@ -520,6 +534,13 @@ function importerFichier(file) {
 			conteneur.appendChild(li);
 		  });
 		}
+		
+		document.getElementById('viderCorbeilleBtn').addEventListener('click', () => {
+		  if (confirm('Voulez-vous vraiment vider la corbeille ?')) {
+			document.getElementById('corbeilleListe').innerHTML = '';
+			// Optionnel : mettre à jour le stockage local si utilisé
+		  }
+		});
 
 	
 		// Chargement de bdTravaux depuis le localStorage
