@@ -204,7 +204,10 @@
 	</div>
 	
 	<div class="liste-corbeille" id="listeCorbeilleContainer" style="display:none;">
-	  <h3 id="titreCorbeille">🗑️ Corbeille</h3>
+	  <div style="display: flex; justify-content: space-between; align-items: center;">
+		<h3 id="titreCorbeille" style="margin: 0;">🗑️ Corbeille</h3>
+		<button onclick="viderCorbeille()" style="font-size: 0.75rem; padding: 2px 6px;">Vider</button>
+	  </div>
 	  <ul id="listeCorbeille"></ul>
 	</div>
 
@@ -513,21 +516,28 @@ function chargerCorbeille() {
   conteneur.innerHTML = '';
 
   if (corbeille.length === 0) {
+    titre.textContent = `🗑️ Corbeille`;
     document.getElementById('listeCorbeilleContainer').style.display = 'none';
     return;
   }
 
-  // Met à jour le titre avec le nombre d'éléments
   titre.textContent = `🗑️ Corbeille (${corbeille.length})`;
-
   document.getElementById('listeCorbeilleContainer').style.display = 'block';
 
   corbeille.forEach(t => {
     const li = document.createElement('li');
     li.textContent = `${t.type} ${t.numero} ${t.famille} ${t.precision} (Date prévue: ${t.dateSelection})`;
-    li.style.color = 'gray'; // Optionnel
+    li.style.color = 'gray';
     conteneur.appendChild(li);
   });
+}
+
+
+function viderCorbeille() {
+  if (confirm("Voulez-vous vraiment vider la corbeille ? Cette action est irréversible.")) {
+    localStorage.removeItem('bdCorbeille'); // Supprime la clé
+    chargerCorbeille(); // Met à jour l'affichage
+  }
 }
 	
 	
