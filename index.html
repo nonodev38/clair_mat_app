@@ -170,7 +170,7 @@
 	</div>
 	
 	<div class="liste-corbeille" id="listeCorbeilleContainer" style="display:none;">
-	  <h3>🗑️ Corbeille</h3>
+	  <h3 id="titreCorbeille">🗑️ Corbeille</h3>
 	  <ul id="listeCorbeille"></ul>
 	</div>
 
@@ -472,25 +472,30 @@ function importerFichier(file) {
 	  chargerCorbeille();
 	}
 	
-	  function chargerCorbeille() {
-		  const corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
-		  const conteneur = document.getElementById('listeCorbeille');
-		  conteneur.innerHTML = '';
+function chargerCorbeille() {
+  const corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
+  const conteneur = document.getElementById('listeCorbeille');
+  const titre = document.getElementById('titreCorbeille');
+  conteneur.innerHTML = '';
 
-		  if (corbeille.length === 0) {
-			document.getElementById('listeCorbeilleContainer').style.display = 'none';
-			return;
-		  }
+  if (corbeille.length === 0) {
+    document.getElementById('listeCorbeilleContainer').style.display = 'none';
+    return;
+  }
 
-		  document.getElementById('listeCorbeilleContainer').style.display = 'block';
+  // Met à jour le titre avec le nombre d'éléments
+  titre.textContent = `🗑️ Corbeille (${corbeille.length})`;
 
-		  corbeille.forEach(t => {
-			const li = document.createElement('li');
-			li.textContent = `${t.type} ${t.numero} ${t.famille} ${t.precision} (Date prévue: ${t.dateSelection})`;
-			li.style.color = 'gray'; // Optionnel : pour marquer que c'est supprimé
-			conteneur.appendChild(li);
-		  });
-		}	
+  document.getElementById('listeCorbeilleContainer').style.display = 'block';
+
+  corbeille.forEach(t => {
+    const li = document.createElement('li');
+    li.textContent = `${t.type} ${t.numero} ${t.famille} ${t.precision} (Date prévue: ${t.dateSelection})`;
+    li.style.color = 'gray'; // Optionnel
+    conteneur.appendChild(li);
+  });
+}
+	
 	
 		// Chargement de bdTravaux depuis le localStorage
 	  const bdTravaux = JSON.parse(localStorage.getItem("bdTravaux")) || [];
