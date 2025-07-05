@@ -429,7 +429,7 @@ function importerFichier(file) {
 
 	  liste.forEach(t => {
 		const li = document.createElement('li');
-		li.textContent = `${t.type} ${t.numero} (${t.dateSelection})`;
+		li.textContent = `${t.type} ${t.numero}  ${t.famille} ${t.precision} (${t.dateSelection})`;
 		li.style.cursor = 'pointer';
 		li.title = 'Cliquer pour retirer de la liste';
 		li.onclick = () => retirerDeListeARealiser(t.id);
