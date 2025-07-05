@@ -130,7 +130,7 @@
     }
 	
 	
-		.liste-realisation {
+	.liste-realisation {
 	  position: fixed;
 	  top: 1rem;
 	  left: 1rem;
@@ -142,45 +142,53 @@
 	  z-index: 1000;
 	  max-width: 250px;
 	}
+
 	.liste-realisation h3 {
 	  margin: 0 0 0.5rem 0;
 	  font-size: 1rem;
 	}
+
 	.liste-realisation ul {
 	  list-style: none;
 	  padding: 0;
 	  margin: 0;
 	}
+
 	.liste-realisation li {
 	  font-size: 0.85rem;
 	  margin-bottom: 0.4rem;
 	}
-	
-		.liste-corbeille {
+
+	/* CORBEILLE POSITIONNÉE EN DESSOUS DE LA LISTE */
+	.liste-corbeille {
 	  position: fixed;
-	  top: 1rem;
+	  top: calc(1rem + 200px); /* Ajuste cette valeur selon la hauteur réelle de ta liste */
 	  left: 1rem;
 	  background: #fff;
 	  border: 1px solid #ccc;
 	  padding: 0.5rem;
 	  border-radius: 6px;
 	  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-	  z-index: 1000;
+	  z-index: 999; /* Un peu plus bas que .liste-realisation */
 	  max-width: 250px;
 	}
+
 	.liste-corbeille h3 {
 	  margin: 0 0 0.5rem 0;
 	  font-size: 1rem;
 	}
+
 	.liste-corbeille ul {
 	  list-style: none;
 	  padding: 0;
 	  margin: 0;
 	}
+
 	.liste-corbeille li {
 	  font-size: 0.85rem;
 	  margin-bottom: 0.4rem;
-	}	
+	}
+
 
 	
 	
