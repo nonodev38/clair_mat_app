@@ -490,24 +490,30 @@ function importerFichier(file) {
 	  }
 	}
 	
-	function retirerDeListeARealiser(id) {
-	  let liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
-	  const elementRetire = liste.find(t => t.id === id);
+function retirerDeListeARealiser(id) {
+  // 1. Supprimer de listeTravauxARealiser
+  let liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
+  const elementRetire = liste.find(t => t.id === id);
+  liste = liste.filter(t => t.id !== id);
+  localStorage.setItem('listeTravauxARealiser', JSON.stringify(liste));
 
-	  // Supprimer de la liste
-	  liste = liste.filter(t => t.id !== id);
-	  localStorage.setItem('listeTravauxARealiser', JSON.stringify(liste));
+  // 2. Supprimer de travaux (la liste principale)
+  let travaux = JSON.parse(localStorage.getItem('travaux')) || [];
+  travaux = travaux.filter(t => t.id !== id);
+  localStorage.setItem('travaux', JSON.stringify(travaux));
 
-	  // Ajouter à bdCorbeille
-	  let corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
-	  if (elementRetire && !corbeille.some(t => t.id === id)) {
-		corbeille.push(elementRetire);
-		localStorage.setItem('bdCorbeille', JSON.stringify(corbeille));
-	  }
+  // 3. Ajouter à bdCorbeille
+  let corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
+  if (elementRetire && !corbeille.some(t => t.id === id)) {
+    corbeille.push(elementRetire);
+    localStorage.setItem('bdCorbeille', JSON.stringify(corbeille));
+  }
 
-	  chargerListeARealiser();
-	  chargerCorbeille();
-	}
+  // 4. Rafraîchir l'affichage
+  chargerListeARealiser();
+  chargerCorbeille();
+}
+
 	
 function chargerCorbeille() {
   const corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
