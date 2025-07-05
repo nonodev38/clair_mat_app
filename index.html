@@ -512,7 +512,8 @@ function retirerDeListeARealiser(id) {
   // 4. Rafraîchir l'affichage
   chargerListeARealiser();
   chargerCorbeille();
-  afficherTravaux();
+	travaux = JSON.parse(localStorage.getItem('travaux')) || [];
+	afficherTravaux();
 }
 
 	
