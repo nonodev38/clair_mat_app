@@ -164,10 +164,16 @@
 
   <h1>📋 Gestion des Travaux</h1>
   
- <div class="liste-realisation" id="listeRealisationContainer" style="display:none;">
-  <h3>🛠 À réaliser</h3>
-  <ul id="listeRealisation"></ul>
-</div>
+	<div class="liste-realisation" id="listeRealisationContainer" style="display:none;">
+	  <h3>🛠 À réaliser</h3>
+	  <ul id="listeRealisation"></ul>
+	</div>
+	
+	<div class="liste-corbeille" id="listeCorbeilleContainer" style="display:none;">
+	  <h3>🗑️ Corbeille</h3>
+	  <ul id="listeCorbeille"></ul>
+	</div>
+
 
   <div id="importExportSection">
 	<input type="file" id="importFile" accept=".txt" style="display:none" />
@@ -429,7 +435,7 @@ function importerFichier(file) {
 
 	  liste.forEach(t => {
 		const li = document.createElement('li');
-		li.textContent = `${t.type} ${t.numero}  ${t.famille} ${t.precision} (date prévue:${t.dateSelection})`;
+		li.textContent = `${t.type} ${t.numero}  ${t.famille} ${t.precision} (Date prévue:${t.dateSelection})`;
 		li.style.cursor = 'pointer';
 		li.title = 'Cliquer pour retirer de la liste';
 		li.onclick = () => retirerDeListeARealiser(t.id);
@@ -463,7 +469,28 @@ function importerFichier(file) {
 	  }
 
 	  chargerListeARealiser();
+	  chargerCorbeille();
 	}
+	
+	  function chargerCorbeille() {
+		  const corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
+		  const conteneur = document.getElementById('listeCorbeille');
+		  conteneur.innerHTML = '';
+
+		  if (corbeille.length === 0) {
+			document.getElementById('listeCorbeilleContainer').style.display = 'none';
+			return;
+		  }
+
+		  document.getElementById('listeCorbeilleContainer').style.display = 'block';
+
+		  corbeille.forEach(t => {
+			const li = document.createElement('li');
+			li.textContent = `${t.type} ${t.numero} ${t.famille} ${t.precision} (Date prévue: ${t.dateSelection})`;
+			li.style.color = 'gray'; // Optionnel : pour marquer que c'est supprimé
+			conteneur.appendChild(li);
+		  });
+		}	
 	
 		// Chargement de bdTravaux depuis le localStorage
 	  const bdTravaux = JSON.parse(localStorage.getItem("bdTravaux")) || [];
@@ -482,8 +509,7 @@ function importerFichier(file) {
 		option.value = p;
 		datalist.appendChild(option);
 	  });
-
-
+	  
 
     // Initialisation
     flatpickr("#date", { dateFormat: "d/m/Y", locale: "fr" });
@@ -502,6 +528,7 @@ function importerFichier(file) {
 
     afficherTravaux();
 	chargerListeARealiser();
+	chargerCorbeille();
   </script>
 </body>
 </html>
