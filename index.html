@@ -534,13 +534,22 @@ function chargerCorbeille() {
 
   corbeille.forEach(t => {
     const li = document.createElement('li');
-    li.textContent = `${t.type} ${t.numero} ${t.famille} ${t.precision} (Date prévue: ${t.dateSelection})`;
-    li.style.cursor = 'pointer';
-    li.title = 'Cliquer pour restaurer cet élément';
-    li.onclick = () => restaurerDepuisCorbeille(t.id);
+
+    const texte = document.createElement('span');
+    texte.textContent = `${t.type} ${t.numero} ${t.famille} ${t.precision} (Date prévue: ${t.dateSelection})`;
+
+    const boutonRestaurer = document.createElement('button');
+    boutonRestaurer.textContent = '↩️';
+    boutonRestaurer.title = 'Restaurer cet élément';
+    boutonRestaurer.style.marginLeft = '0.5rem';
+    boutonRestaurer.onclick = () => restaurerDepuisCorbeille(t.id);
+
+    li.appendChild(texte);
+    li.appendChild(boutonRestaurer);
     conteneur.appendChild(li);
   });
 }
+
 
 
 
