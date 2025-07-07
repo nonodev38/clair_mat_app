@@ -497,7 +497,7 @@ function retirerDeListeARealiser(id) {
   liste = liste.filter(t => t.id !== id);
   localStorage.setItem('listeTravauxARealiser', JSON.stringify(liste));
 
-  // 2. Supprimer de travaux (la liste principale)
+  // 2. Supprimer de travaux (liste principale)
   let travaux = JSON.parse(localStorage.getItem('travaux')) || [];
   travaux = travaux.filter(t => t.id !== id);
   localStorage.setItem('travaux', JSON.stringify(travaux));
@@ -509,10 +509,10 @@ function retirerDeListeARealiser(id) {
     localStorage.setItem('bdCorbeille', JSON.stringify(corbeille));
   }
 
-  // 4. Rafraîchir l'affichage
+  // 4. Mettre à jour uniquement les zones nécessaires
   chargerListeARealiser();
   chargerCorbeille();
-  location.reload();
+  afficherTravaux(); // Met à jour la liste principale affichée
 }
 
 	
