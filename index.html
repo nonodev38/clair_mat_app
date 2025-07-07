@@ -522,25 +522,26 @@ function retirerDeListeARealiser(id) {
 function chargerCorbeille() {
   const corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
   const conteneur = document.getElementById('listeCorbeille');
-  const titre = document.getElementById('titreCorbeille');
   conteneur.innerHTML = '';
 
   if (corbeille.length === 0) {
-    titre.textContent = `🗑️ Corbeille`;
     document.getElementById('listeCorbeilleContainer').style.display = 'none';
     return;
   }
 
-  titre.textContent = `🗑️ Corbeille (${corbeille.length})`;
   document.getElementById('listeCorbeilleContainer').style.display = 'block';
+  document.getElementById('titreCorbeille').textContent = `🗑️ Corbeille (${corbeille.length})`;
 
   corbeille.forEach(t => {
     const li = document.createElement('li');
     li.textContent = `${t.type} ${t.numero} ${t.famille} ${t.precision} (Date prévue: ${t.dateSelection})`;
-    li.style.color = 'gray';
+    li.style.cursor = 'pointer';
+    li.title = 'Cliquer pour restaurer cet élément';
+    li.onclick = () => restaurerDepuisCorbeille(t.id);
     conteneur.appendChild(li);
   });
 }
+
 
 
 function viderCorbeille() {
@@ -549,7 +550,37 @@ function viderCorbeille() {
     chargerCorbeille(); // Met à jour l'affichage
   }
 }
-	
+
+
+function restaurerDepuisCorbeille(id) {
+  let corbeille = JSON.parse(localStorage.getItem('bdCorbeille')) || [];
+  const element = corbeille.find(t => t.id === id);
+
+  if (!element) return;
+
+  // 1. Supprimer de la corbeille
+  corbeille = corbeille.filter(t => t.id !== id);
+  localStorage.setItem('bdCorbeille', JSON.stringify(corbeille));
+
+  // 2. Ajouter à travaux (si pas déjà présent)
+  let travaux = JSON.parse(localStorage.getItem('travaux')) || [];
+  if (!travaux.some(t => t.id === id)) {
+    travaux.push(element);
+    localStorage.setItem('travaux', JSON.stringify(travaux));
+  }
+
+  // 3. (Optionnel) Ajouter à listeTravauxARealiser
+  let liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
+  if (!liste.some(t => t.id === id)) {
+    liste.push(element);
+    localStorage.setItem('listeTravauxARealiser', JSON.stringify(liste));
+  }
+
+  // 4. Rafraîchir l'affichage
+  chargerListeARealiser();
+  chargerCorbeille();
+  afficherTravaux();
+}
 	
 		// Chargement de bdTravaux depuis le localStorage
 	  const bdTravaux = JSON.parse(localStorage.getItem("bdTravaux")) || [];
