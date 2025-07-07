@@ -231,20 +231,6 @@
 
   <h1>📋 Gestion des Travaux</h1>
   
-	<div class="liste-realisation" id="listeRealisationContainer" style="display:none;">
-	  <h3>🛠 À réaliser</h3>
-	  <ul id="listeRealisation"></ul>
-	</div>
-	
-	<div class="liste-corbeille" id="listeCorbeilleContainer" style="display:none;">
-	  <div style="display: flex; justify-content: space-between; align-items: center;">
-		<h3 id="titreCorbeille" style="margin: 0;">🗑️ Corbeille</h3>
-		<button onclick="viderCorbeille()" style="font-size: 0.75rem; padding: 2px 6px;">Vider</button>
-	  </div>
-	  <ul id="listeCorbeille"></ul>
-	</div>
-
-
   <div id="importExportSection">
 	<input type="file" id="importFile" accept=".txt" style="display:none" />
 	<button id="btnImport">⬆ Importer bdTravaux.txt</button>
@@ -300,6 +286,19 @@
   <input type="text" id="rechercheInput" placeholder="🔍 Rechercher un travail..." />
 
   <ul id="travauxList"></ul>
+  
+ 	<div class="liste-realisation" id="listeRealisationContainer" style="display:none;">
+	  <h3>🛠 À réaliser</h3>
+	  <ul id="listeRealisation"></ul>
+	</div>
+	
+	<div class="liste-corbeille" id="listeCorbeilleContainer" style="display:none;">
+	  <div style="display: flex; justify-content: space-between; align-items: center;">
+		<h3 id="titreCorbeille" style="margin: 0;">🗑️ Corbeille</h3>
+		<button onclick="viderCorbeille()" style="font-size: 0.75rem; padding: 2px 6px;">Vider</button>
+	  </div>
+	  <ul id="listeCorbeille"></ul>
+	</div> 
 
   <script>
     let travaux = JSON.parse(localStorage.getItem('travaux')) || [];
