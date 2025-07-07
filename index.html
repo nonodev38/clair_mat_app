@@ -595,11 +595,11 @@ function restaurerDepuisCorbeille(id) {
   }
 
   // 3. (Optionnel) Ajouter à listeTravauxARealiser
-  let liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
-  if (!liste.some(t => t.id === id)) {
-    liste.push(element);
-    localStorage.setItem('listeTravauxARealiser', JSON.stringify(liste));
-  }
+  //let liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
+  //if (!liste.some(t => t.id === id)) {
+  //  liste.push(element);
+  //  localStorage.setItem('listeTravauxARealiser', JSON.stringify(liste));
+  //}
 
   // 4. Rafraîchir l'affichage
   chargerListeARealiser();
