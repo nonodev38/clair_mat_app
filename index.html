@@ -277,46 +277,49 @@
       return new Date(`${y}-${m}-${d}`);
     };
 
-    function afficherTravaux(filtre = '') {
-      const list = document.getElementById('travauxList');
-      list.innerHTML = '';
-      const recherche = filtre.trim().toLowerCase();
+function afficherTravaux(filtre = '') {
+  const list = document.getElementById('travauxList');
+  list.innerHTML = '';
+  const recherche = filtre.trim().toLowerCase();
 
-      travaux
-        .sort((a, b) => parseDateDDMMYYYY(b.dateSelection) - parseDateDDMMYYYY(a.dateSelection))
-        .filter(t => {
-          const txt = `${t.type} ${t.numero} ${t.famille} ${t.precision} ${t.dateAjout} ${t.dateSelection}`.toLowerCase();
-          return txt.includes(recherche);
-        })
-        .forEach(item => {
-          const li = document.createElement('li');
-          const title = document.createElement('div');
-          title.className = 'title';
-          title.textContent = `${item.type} ${item.numero}`;
+  // 🔥 Correction ici : lire depuis localStorage
+  const travaux = JSON.parse(localStorage.getItem('travaux')) || [];
 
-          const subtitle = document.createElement('div');
-          subtitle.className = 'subtitle';
-          subtitle.textContent = `${item.famille} | ${item.precision} | ${item.dateAjout} | ${item.dateSelection}`;
+  travaux
+    .sort((a, b) => parseDateDDMMYYYY(b.dateSelection) - parseDateDDMMYYYY(a.dateSelection))
+    .filter(t => {
+      const txt = `${t.type} ${t.numero} ${t.famille} ${t.precision} ${t.dateAjout} ${t.dateSelection}`.toLowerCase();
+      return txt.includes(recherche);
+    })
+    .forEach(item => {
+      const li = document.createElement('li');
+      const title = document.createElement('div');
+      title.className = 'title';
+      title.textContent = `${item.type} ${item.numero}`;
 
-          const btn = document.createElement('button');
-          btn.textContent = '✏️ Modifier';
-          btn.onclick = () => modifierFiche(item.id);
+      const subtitle = document.createElement('div');
+      subtitle.className = 'subtitle';
+      subtitle.textContent = `${item.famille} | ${item.precision} | ${item.dateAjout} | ${item.dateSelection}`;
 
-          const div = document.createElement('div');
-          div.appendChild(title);
-          div.appendChild(subtitle);
+      const btn = document.createElement('button');
+      btn.textContent = '✏️ Modifier';
+      btn.onclick = () => modifierFiche(item.id);
 
-			li.onclick = (e) => {
-			  if (e.target.tagName !== 'BUTTON') {
-				ajouterDansListeARealiser(item);
-			  }
-			};
+      const div = document.createElement('div');
+      div.appendChild(title);
+      div.appendChild(subtitle);
 
-          li.appendChild(div);
-          li.appendChild(btn);
-          list.appendChild(li);
-        });
-    }
+      li.onclick = (e) => {
+        if (e.target.tagName !== 'BUTTON') {
+          ajouterDansListeARealiser(item);
+        }
+      };
+
+      li.appendChild(div);
+      li.appendChild(btn);
+      list.appendChild(li);
+    });
+}
 
     function clearForm() {
       document.getElementById('ficheId').value = '';
