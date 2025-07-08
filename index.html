@@ -230,7 +230,10 @@
   <div id="importExportSection">
 	<input type="file" id="importFile" accept=".txt" style="display:none" />
 	<button id="btnExport">⬇ Exporter bdTravaux.txt</button>
+	<button id="btnExportListeARealiser">⬇ Exporter bdListeARealisr.txt</button>
 	<button id="btnImport">⬆ Importer bdTravaux.txt</button>
+	
+	
   </div>
 
   <div style="text-align:center;">
@@ -674,7 +677,8 @@ function restaurerDepuisCorbeille(id) {
         e.target.value = '';
       }
     });
-    document.getElementById('btnExport').onclick = exporterFichier, exporterListeARealiser;
+    document.getElementById('btnExport').onclick = exporterFichier;
+	 document.getElementById('btnExportListeARealiser').onclick = exporterListeARealiser;
     document.getElementById('rechercheInput').addEventListener('input', e => afficherTravaux(e.target.value));
 
     afficherTravaux();
