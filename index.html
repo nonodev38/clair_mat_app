@@ -491,6 +491,8 @@ function importerFichier(file) {
       URL.revokeObjectURL(url);
     }
 	
+	
+	
 function sauvegarderDansGoogleSheet() {
   const travaux = JSON.parse(localStorage.getItem('travaux')) || [];
 
@@ -501,10 +503,11 @@ function sauvegarderDansGoogleSheet() {
       "Content-Type": "application/json"
     }
   })
-    .then(res => res.text())
-    .then(txt => alert("✅ Sauvegarde réussie dans Google Sheets !"))
-    .catch(err => alert("❌ Erreur lors de la sauvegarde : " + err));
-}	
+  .then(res => res.text())
+  .then(txt => console.log("✅ Google Sheet sauvegardée :", txt))
+  .catch(err => console.error("❌ Erreur Google Sheet :", err));
+}
+	
 	
 function chargerListeARealiser() {
   const liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
