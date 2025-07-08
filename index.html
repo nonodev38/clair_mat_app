@@ -494,7 +494,7 @@ function importerFichier(file) {
 function sauvegarderDansGoogleSheet() {
   const travaux = JSON.parse(localStorage.getItem('travaux')) || [];
 
-  fetch("https://script.google.com/macros/s/AKfycby4dDpm2_BoUNyR1pRxTh-zR8e7Yi0F0VHIikmh3YwqOUi-LQIyZ-NJZ-b8ADQkm0YA/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbx8LlFIIqhaCHs0gt6SV3KVdpXzxgeMQ412CyO3GfcLFzmPxJcVB9ntSnh9tMQAckh5/exec", {
     method: "POST",
     body: JSON.stringify(travaux),
     headers: {
