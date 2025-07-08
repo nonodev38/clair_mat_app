@@ -231,8 +231,6 @@
 	<input type="file" id="importFile" accept=".txt" style="display:none" />
 	<button id="btnImport">⬆ Importer bdTravaux.txt</button>
 	<button id="btnExport">⬇ Exporter bdTravaux.txt</button>
-	<button onclick="sauvegarderDansGoogleSheet()">📤 Sauvegarder dans Google Sheets</button>
-
   </div>
 
   <div style="text-align:center;">
@@ -490,23 +488,6 @@ function importerFichier(file) {
       a.remove();
       URL.revokeObjectURL(url);
     }
-	
-	
-	
-function sauvegarderDansGoogleSheet() {
-  const travaux = JSON.parse(localStorage.getItem('travaux')) || [];
-
-  fetch("https://script.google.com/macros/s/AKfycbx8LlFIIqhaCHs0gt6SV3KVdpXzxgeMQ412CyO3GfcLFzmPxJcVB9ntSnh9tMQAckh5/exec", {
-    method: "POST",
-    body: JSON.stringify(travaux),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => res.text())
-  .then(txt => console.log("✅ Google Sheet sauvegardée :", txt))
-  .catch(err => console.error("❌ Erreur Google Sheet :", err));
-}
 	
 	
 function chargerListeARealiser() {
