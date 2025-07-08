@@ -493,17 +493,17 @@ function importerFichier(file) {
     }
 	
 		  function exporterListeARealiser() {
-      if (!travaux.length) return alert("Aucun travail à exporter.");
-      const txt = travaux.map(t => [t.id, t.type, t.numero, t.famille, t.precision, t.dateAjout, t.dateSelection].join('|')).join('\n');
-      const blob = new Blob([txt], {type: 'text/plain'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'bdTravaux.txt';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+		  if (!listeTravauxARealiser.length) return alert("Aucun travail à exporter.");
+		  const txt = listeTravauxARealiser.map(t => [t.id, t.type, t.numero, t.famille, t.precision, t.dateAjout, t.dateSelection].join('|')).join('\n');
+		  const blob = new Blob([txt], {type: 'text/plain'});
+		  const url = URL.createObjectURL(blob);
+		  const a = document.createElement('a');
+		  a.href = url;
+		  a.download = 'bdListeTravauxARealiser.txt';
+		  document.body.appendChild(a);
+		  a.click();
+		  a.remove();
+		  URL.revokeObjectURL(url);
 		}
 		
 	
