@@ -230,7 +230,7 @@
   <div id="importExportSection">
 	<input type="file" id="importFile" accept=".txt" style="display:none" />
 	<button id="btnExport">⬇ Exporter bdTravaux.txt</button>
-	<button id="btnExportListeARealiser">⬇ Exporter bdListeARealisr.txt</button>
+	<button id="btnExportListeARealiser">⬇ Exporter bdListeTravauxARealiser.txt</button>
 	<button id="btnImport">⬆ Importer bdTravaux.txt</button>
 	
 	
@@ -492,21 +492,20 @@ function importerFichier(file) {
       URL.revokeObjectURL(url);
     }
 	
-	  function exporterListeARealiser() {
-      if (!listeTravauxARealiser.length) return alert("Aucun travail à exporter.");
-	  alert("Aucun travail à exporter.");
-      const txt = listeTravauxARealiser.map(t => [t.id, t.type, t.numero, t.famille, t.precision, t.dateAjout, t.dateSelection].join('|')).join('\n');
+		  function exporterListeARealiser() {
+      if (!travaux.length) return alert("Aucun travail à exporter.");
+      const txt = travaux.map(t => [t.id, t.type, t.numero, t.famille, t.precision, t.dateAjout, t.dateSelection].join('|')).join('\n');
       const blob = new Blob([txt], {type: 'text/plain'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'listeTravauxARealiser.txt';
+      a.download = 'bdTravaux.txt';
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
-    }
-	
+		}
+		
 	
 function chargerListeARealiser() {
   const liste = JSON.parse(localStorage.getItem('listeTravauxARealiser')) || [];
